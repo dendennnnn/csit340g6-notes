@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useMemo } from 'react'
 import NoteCard from './NoteCard.jsx'
 
 const startingNotes = [
@@ -67,9 +67,11 @@ function Notes() {
     setNotes(notes.filter((note) => note.id !== id))
   }
 
-  const filteredNotes = notes.filter((note) =>
+  const filteredNotes = useMemo(() => {
+  return notes.filter((note) =>
     note.title.toLowerCase().includes(search.toLowerCase())
   )
+  }, [notes, search])
 
   return (
     <div className="grid min-h-screen grid-cols-[420px_1fr]">
@@ -102,7 +104,7 @@ function Notes() {
             placeholder="Title"
             className="h-[52px] w-full border border-[#e6e6e6] px-4 text-lg outline-none placeholder:text-black/40 placeholder:italic focus:border-[#cf7d7d]"
           />
-          <textarea
+          <textarean
             name="body"
             value={form.body}
             onChange={handleChange}
